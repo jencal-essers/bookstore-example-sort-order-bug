@@ -4,6 +4,8 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -58,6 +60,20 @@ public class InventoryView extends HorizontalLayout
         barAndGridLayout.setSizeFull();
         barAndGridLayout.expand(grid);
 
+        Button sort1 = new Button("sort1");
+        Grid.Column<Product> price = grid.getColumnByKey("price");
+        Grid.Column<Product> stock = grid.getColumnByKey("stock");
+        sort1.addClickListener(event -> {
+            grid.sort(GridSortOrder.asc(stock)
+                    .thenAsc(price).build());
+            stock.setVisible(true);
+        });
+        add(sort1);
+        Button sort2 = new Button("sort2");
+        sort2.addClickListener(event -> {
+            grid.sort(GridSortOrder.asc(price).build());
+            stock.setVisible(false);
+        });
         add(barAndGridLayout);
         add(form);
 
